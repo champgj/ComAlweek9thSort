@@ -26,13 +26,13 @@ public class allSort{
         public int[] sort (int [] A){
 
             for (int i = 1; i < A.length; i++) {
-                int CurrentElement = A[i];  // 기준
-                int j = i - 1;   // 비교할 대상
+                int CurrentElement = A[i];
+                int j = i - 1;
                 while (j >= 0 && A[j]>CurrentElement) {
-                    A[j+1] = A[j];   // 비교대상이 큰 경우 오른쪽으로 옮김
+                    A[j+1] = A[j];
                     j=j-1;
                 }
-                A[j+1] = CurrentElement;  // 기준값 저장
+                A[j+1] = CurrentElement;
             }
             return A;
         }
@@ -44,10 +44,10 @@ public class allSort{
         @Override
         public int[] sort(int[] A) {
             int n = A.length;
-            int min; //최소값을 가진 데이터의 인덱스 저장 변수
+            int min;
             int tmp;
 
-            for (int i = 0; i < n - 1; i++) { // size-1 : 마지막 요소는 자연스럽게 정렬됨
+            for (int i = 0; i < n - 1; i++) {
                 min = i;
                 for (int j = i + 1; j < n; j++) {
                     if (A[min] > A[j]) {
