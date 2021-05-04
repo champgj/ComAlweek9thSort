@@ -5,10 +5,11 @@ public class allSort{
         @Override
         public int[] sort(int[] A) {
             int n = A.length;
+            int tmp;
             for(int j = 0; j < n; j++) {
                 for(int i = 1 ; i < n-j ; i++) {
                     if(A[i-1] > A[i]) {
-                        int tmp = A[i-1];
+                        tmp = A[i-1];
                         A[i-1] = A[i];
                         A[i] = tmp;
                     }
@@ -16,6 +17,7 @@ public class allSort{
             }
             return A;
         }
+
 
     }
 

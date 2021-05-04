@@ -21,14 +21,23 @@ public class allData {
         }
     }
 
-    public static class somesorted implements Data{
+    public static class nearlysorted implements Data{
 
         @Override
         public int[] datainput(int[] A) {
+            int tmp = 0;
             for (int i = 0; i < A.length; i++) {
-                if(i < A.length/10) A[i] = i;
-                else A[i] = (int) (Math.random()*100);
+                A[i] = i;
             }
+            for(int i = 1; i < A.length; i++){
+                if(A.length - i>7){
+                    tmp = A[7+i];
+                    A[i] = tmp;
+                    A[7+i] = A[i];
+                }
+
+            }
+
             return A;
         }
     }
