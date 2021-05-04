@@ -173,9 +173,11 @@ public static class shellSort implements Sorter {
     }
  ```
 
-**gap을 A.length/2 로 계속 1/2로 줄여나가는 것 보다 **
+**직접 테스트 해본 결과 gap을 A.length/2 로 계속 1/2로 줄여나가는 것 보다 **
 
-**N/3+1이 더 빠르다고 해서 h = A.length / 3+1 로 작성하였다.**
+**N/3+1이 더 빨라서 h = A.length / 3+1 로 작성하였다.**
+
+이것에 대해서는 밑에서 다시 다루겠습니다.
 
 
 
@@ -401,7 +403,7 @@ public class main {
 
 예시로 크기가 1000인 배열을 생성하여 정렬하였다.
 
-![image-20210504212201256](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210504212201256.png)
+![image-20210504212201256](https://user-images.githubusercontent.com/75067408/117023527-270cff80-ad34-11eb-95cd-298f8f786bb6.png)
 
 
 
@@ -435,15 +437,13 @@ public class main {
 
 ## 3.3) 각 데이터 별 성능비교
 
-![image-20210504213544834](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210504213544834.png)
+![image-20210504213544834](https://user-images.githubusercontent.com/75067408/117023604-38560c00-ad34-11eb-8454-69a7dd3efdaa.png)
 
 
 
-![image-20210504213612201](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210504213612201.png)
+![image-20210504213612201](https://user-images.githubusercontent.com/75067408/117023652-4310a100-ad34-11eb-8ca5-356519603830.png)
 
-
-
-![image-20210504213645993](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210504213645993.png)
+![image-20210504213645993](https://user-images.githubusercontent.com/75067408/117023702-4e63cc80-ad34-11eb-97d5-624c87dd8909.png)
 
 
 
@@ -453,27 +453,23 @@ public class main {
 
 같은 정렬방식이라도 코드로 짜는 방법의 차이로 그래프가 다르게 나올 수 있을 것 같다.
 
-![image-20210504213851312](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210504213851312.png)
+![image-20210504213851312](https://user-images.githubusercontent.com/75067408/117023750-57549e00-ad34-11eb-94f8-1526945ae29f.png)
 
 위 사진은 각각의 배열과 그 크기에 따라서 정렬을 수행했을 때 걸리는 시간을 적은 표 이다.
 
-## p.s.) 쉘 정렬에서 지금까지 알려진 가장 좋은 성능을 보인 간격
 
-최적격차
 
-Shell sort의 근본적인 문제는 비교된 요소들 사이의 최적의 간격을 결정하는 것이다.
+## p.s.) 쉘 정렬에서 지금까지 알려진 가장 좋은 성능을 보인 간격들
 
-원래의 알고리즘에서 도널드 셸은 각 단계에서 나누어진 크기의 초기 간격(배열의 크기)을 제안했다.
+최적격차!
 
-이 접근 방식은 한 가지 큰 단점이 있습니다.
-
-즉, 홀수 및 짝수 장소에 있는 요소는 마지막 단계에서 상호 비교됩니다.
-
-다른 구현에서는 최악의 경우 복잡성이 있는 간격 크기(Hibbard) 또는 복잡성이 있는 (Sedgewick)를 사용했다.
+쉘정렬에서의 중요한 문제는 비교된 요소들 사이의 최적의 간격을 결정하는 것이다.
 
 최고의 성능은 Marcin Ciura의  1, 4, 10, 23, 57, 132, 301, 701, 1750 의 시퀀스에 의해 제공된다.
 
+또한 Knuth’s sequence: k = 3k + 1 도 있다.
 
+제가 작성한 코드도 Knuth’s sequence를 이용해서 작성했습니다.
 
 
 
