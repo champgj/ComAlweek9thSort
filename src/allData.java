@@ -5,7 +5,7 @@ public class allData {
         public int[] datainput (int [] A){
 
             for (int i = 0; i < A.length; i++) {
-                A[i] = (int) (Math.random()*100);
+                A[i] = (int) (Math.random()*10000);
             }
             return A;
         }

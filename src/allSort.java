@@ -71,7 +71,7 @@ public class allSort{
             int i;
             int j;
             int CurrentElement;
-            for(int h = A.length / 2; h > 0; h = h/2) {
+            for(int h = A.length / 3+1; h > 0; h = h/2) {
                 for( i=h; i<A.length; i++ ) {
                     CurrentElement = A[i];
                     j = i;

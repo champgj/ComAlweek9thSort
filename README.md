@@ -1,6 +1,6 @@
-# 1. Sort
+# 1. 정렬
 
-## 1.1) 정렬
+## 1.1) 정렬에 대하여
 
 ### 1.1.1) 삽입정렬이란?
 
@@ -45,6 +45,8 @@
 3. 내림차순, 어느정도정렬된 배열, 랜덤 데이터 배열을 만든다.
 4. 데이터들도 인터페이스로 구현해서 한개의 data로 묶는다.
 5. 각각의 데이터들을 4가지의 정렬로 정렬하고 그 시간을 측정한다.
+
+
 
 # 2. 정렬구현코드
 
@@ -154,7 +156,7 @@ public static class shellSort implements Sorter {
             int i;
             int j;
             int CurrentElement;
-            for(int h = A.length / 2; h > 0; h = h/2) {
+            for(int h = A.length / 3+1; h > 0; h = h/2) {
                 for( i=h; i<A.length; i++ ) {
                     CurrentElement = A[i];
                     j = i;
@@ -171,9 +173,9 @@ public static class shellSort implements Sorter {
     }
  ```
 
+**gap을 A.length/2 로 계속 1/2로 줄여나가는 것 보다 **
 
-
-
+**N/3+1이 더 빠르다고 해서 h = A.length / 3+1 로 작성하였다.**
 
 
 
@@ -397,11 +399,9 @@ public class main {
 
 출력결과는 다음과 같다.
 
-만약 Strassen 알고리즘과 같은 입력값을 넣으면 출력결과도 같은 결과가 나온다 .
+예시로 크기가 1000인 배열을 생성하여 정렬하였다.
 
-![image-20210428161144186](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210428161144186.png
-
-
+![image-20210504212201256](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210504212201256.png)
 
 
 
@@ -409,37 +409,69 @@ public class main {
 
 ## 3.1) 각 정렬별 장단점
 
- - 
 
 
-
-
+|          | 장점                                                   | 단점                             |
+| -------- | :----------------------------------------------------- | :------------------------------- |
+| 삽입정렬 | 최선의 경우 O(N)으로 구할 수 있다.                     | 최선의 경우 O(N^2)이 걸린다.     |
+| 버블정렬 | 구현이 간단하다.                                       | 대체적으로 느리다.               |
+| 선택정렬 | 구현이 간단하다.비교하는 횟수에 비해 교환이 적게일어남 | 대체적으로 느리다.               |
+| 쉘정렬   | O(NlogN)보다 빠르다.                                   | 간격설정에 따라 성능편차가 있다. |
 
 
 
 ## 3.2) 각 데이터별 정렬의 시간복잡도
 
-![image-20210428125416457](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210428125416457.png)
-
-값이 작을 때는 크게 차이가 나지 않지만 값이 커지면 커질 수록 차이가 심해진다.
 
 
-
-
-
-
-
+|          | 최악의경우 | 평균      | 최선의경우 |
+| -------- | ---------- | --------- | ---------- |
+| 삽입정렬 | O(N^2)     | O(N^2)    | O(N^2)     |
+| 버블정렬 | O(N^2)     | O(N^2)    | O(N^2)     |
+| 선택정렬 | O(N^2)     | O(N^2)    | O(N^2)     |
+| 쉘정렬   | O(N^1.25)  | O(N^1.25) | O(N^1.25)  |
 
 
 
+## 3.3) 각 데이터 별 성능비교
+
+![image-20210504213544834](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210504213544834.png)
 
 
 
-## p.s.) 쉘 정렬의 매개변수값?
-
-슈트라
+![image-20210504213612201](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210504213612201.png)
 
 
+
+![image-20210504213645993](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210504213645993.png)
+
+
+
+
+
+
+
+같은 정렬방식이라도 코드로 짜는 방법의 차이로 그래프가 다르게 나올 수 있을 것 같다.
+
+![image-20210504213851312](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210504213851312.png)
+
+위 사진은 각각의 배열과 그 크기에 따라서 정렬을 수행했을 때 걸리는 시간을 적은 표 이다.
+
+## p.s.) 쉘 정렬에서 지금까지 알려진 가장 좋은 성능을 보인 간격
+
+최적격차
+
+Shell sort의 근본적인 문제는 비교된 요소들 사이의 최적의 간격을 결정하는 것이다.
+
+원래의 알고리즘에서 도널드 셸은 각 단계에서 나누어진 크기의 초기 간격(배열의 크기)을 제안했다.
+
+이 접근 방식은 한 가지 큰 단점이 있습니다.
+
+즉, 홀수 및 짝수 장소에 있는 요소는 마지막 단계에서 상호 비교됩니다.
+
+다른 구현에서는 최악의 경우 복잡성이 있는 간격 크기(Hibbard) 또는 복잡성이 있는 (Sedgewick)를 사용했다.
+
+최고의 성능은 Marcin Ciura의  1, 4, 10, 23, 57, 132, 301, 701, 1750 의 시퀀스에 의해 제공된다.
 
 
 

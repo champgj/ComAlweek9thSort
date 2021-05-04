@@ -30,14 +30,14 @@ public class main {
         int[] randomBubble = randomArray;
         int[] randomSelection = randomArray;
         int[] randomShell = randomArray;
-
+/*
         //랜덤배열을 각 정렬방식으로 돌림
         start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
         random.datainput(randomInsertion);
         insertion.sort(randomInsertion);
         end = System.currentTimeMillis();
         System.out.println("삽입정렬로 랜덤배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-/*
+
         start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
         random.datainput(randomBubble);
         bubble.sort(randomBubble);
@@ -49,14 +49,13 @@ public class main {
         selection.sort(randomSelection);
         end = System.currentTimeMillis();
         System.out.println("선택정렬로 랜덤배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
+*/
         start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
         random.datainput(randomShell);
         shell.sort(randomShell);
         end = System.currentTimeMillis();
         System.out.println("쉘정렬로 랜덤배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-*/
-        Sorter.print(randomInsertion);
+Sorter.print(randomShell);
 
         System.out.println("");
 
@@ -69,14 +68,14 @@ public class main {
         int[] somesortedSelection = nearlysortedArray;
         int[] somesortedShell = nearlysortedArray;
 
-
+/*
         //어느정도 정렬된 배열을 각 정렬방식으로 돌림
         start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
         random.datainput(somesortedInsertion);
         insertion.sort(somesortedInsertion);
         end = System.currentTimeMillis();
         System.out.println("삽입정렬로 어느정도 정렬된 배열 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-/*
+
         start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
         random.datainput(somesortedBubble);
         bubble.sort(somesortedBubble);
@@ -88,14 +87,14 @@ public class main {
         selection.sort(somesortedSelection);
         end = System.currentTimeMillis();
         System.out.println("선택정렬로 어느정도 정렬된 배열 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
+*/
         start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
         random.datainput(somesortedShell);
         shell.sort(somesortedShell);
         end = System.currentTimeMillis();
         System.out.println("쉘정렬로 어느정도 정렬된 배열 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-*/
-        Sorter.print(somesortedInsertion);
+
+        Sorter.print(somesortedShell);
         System.out.println("");
 
         int [] descendingArray = new int[n];
@@ -106,14 +105,14 @@ public class main {
         int[] descendingSelection = descendingArray;
         int[] descendingShell = descendingArray;
 
-
+/*
         //내림차순배열을 각 정렬방식으로 돌림
         start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
         random.datainput(descendingInsertion);
         insertion.sort(descendingInsertion);
         end = System.currentTimeMillis();
         System.out.println("삽입정렬로 내림차순배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-/*
+
         start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
         random.datainput(descendingBubble);
         bubble.sort(descendingBubble);
@@ -125,14 +124,14 @@ public class main {
         selection.sort(descendingSelection);
         end = System.currentTimeMillis();
         System.out.println("선택정렬로 내림차순배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
+*/
         start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
         random.datainput(descendingShell);
         shell.sort(descendingShell);
         end = System.currentTimeMillis();
         System.out.println("쉘정렬로 내림차순배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-*/
-        Sorter.print(descendingInsertion);
+
+        Sorter.print(descendingShell);
 
     }
 }
