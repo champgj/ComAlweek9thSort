@@ -66,23 +66,24 @@ public interface Sorter {
 ### 2.1.2) 삽입정렬
 
  ```java
-public static class insertionSort implements Sorter {
+public static class bubbleSort implements Sorter {
 
         @Override
-        public int[] sort (int [] A){
-
-            for (int i = 1; i < A.length; i++) {
-                int CurrentElement = A[i];//현재 비교될 수
-                int j = i - 1;//비교할 대상을 j에 넣는다.
-                while (j >= 0 && A[j]>CurrentElement) {
-                    A[j+1] = A[j];//조건식을 만족하면 오른쪽으로 이동
-                    j=j-1;
+        public int[] sort(int[] A) {
+            int n = A.length;
+            int tmp;
+            for (int j = 0; j < n; j++) {
+                for (int i = 1; i < n - j; i++) {
+                    // j번째와 j-1번째의 요소가 정렬이 안 돼있으면 교환
+                    if (A[i - 1] > A[i]) {
+                        tmp = A[i - 1];
+                        A[i - 1] = A[i];
+                        A[i] = tmp;
+                    }
                 }
-                A[j+1] = CurrentElement;
             }
             return A;
         }
-
     }
  ```
 
@@ -91,21 +92,19 @@ public static class insertionSort implements Sorter {
 ### 2.1.3) 버블정렬
 
  ```java
-public static class bubbleSort implements Sorter {
+ public static class insertionSort implements Sorter {
 
         @Override
         public int[] sort(int[] A) {
-            int n = A.length;
-            int tmp;
-            for(int j = 0; j < n; j++) {
-                for(int i = 1 ; i < n-j ; i++) {
-                    // j번째와 j-1번째의 요소가 정렬이 안 돼있으면 교환
-                    if(A[i-1] > A[i]) {
-                        tmp = A[i-1];
-                        A[i-1] = A[i];
-                        A[i] = tmp;
-                    }
+
+            for (int i = 1; i < A.length; i++) {
+                int CurrentElement = A[i];//현재 비교될 수
+                int j = i - 1; //비교할 대상을 j에
+                while (j >= 0 && A[j] > CurrentElement) {
+                    A[j + 1] = A[j]; //오른쪽으로 이동
+                    j = j - 1;
                 }
+                A[j + 1] = CurrentElement;
             }
             return A;
         }
@@ -131,7 +130,7 @@ public static class selectionSort implements Sorter {
                         min = j;
                     }
                 }
-                //최솟값이 있던 자리와 배열 맨앞자리를 swap
+                //최솟값이 있던 자리와 배열 맨앞자리를 교환
                 tmp = A[min];
                 A[min] = A[i];
                 A[i] = tmp;
@@ -147,30 +146,27 @@ public static class selectionSort implements Sorter {
 
  ```java
 public static class shellSort implements Sorter {
-
+        //쉘정렬은 기본적으로 구간만 나눠서 계산하고 그 나눠진 구간안에서는 삽입정렬로 구현할 수 있다.
         @Override
         public int[] sort(int[] A) {
             int i;
             int j;
             int CurrentElement;
-            for(int h = A.length; h > 0; h = (h-1)/3) {
+            for (int h = A.length; h > 0; h = (h - 1) / 3) {
                 //길이를 n/3+1로 줄여가면서 수행
-                for( i=h; i<A.length; i++ ) {
+                for (i = h; i < A.length; i++) {
                     CurrentElement = A[i];
                     j = i;
-                    while( j>=h && A[j-h]>CurrentElement ) {
-                        A[j] = A[j-h];
-                        j = j-h;
+                    while (j >= h && A[j - h] > CurrentElement) {
+                        A[j] = A[j - h];
+                        j = j - h;
                     }
                     A[j] = CurrentElement;
                 }
             }
             return A;
         }
-
     }
-
-}
  ```
 
 **직접 측정해보니 gap을 A.length/2 로 계속 1/2로 줄여나가는 것 보다 **
@@ -183,6 +179,7 @@ public static class shellSort implements Sorter {
 
 ```java
 public class allSort {
+    //ppt 참고하니 풀만했다!
 
     public static class bubbleSort implements Sorter {
 
@@ -202,8 +199,6 @@ public class allSort {
             }
             return A;
         }
-
-
     }
 
 
@@ -223,8 +218,6 @@ public class allSort {
             }
             return A;
         }
-
-
     }
 
 
@@ -249,12 +242,10 @@ public class allSort {
             }
             return A;
         }
-
-
     }
 
     public static class shellSort implements Sorter {
-
+        //쉘정렬은 기본적으로 구간만 나눠서 계산하고 그 나눠진 구간안에서는 삽입정렬로 구현할 수 있다.
         @Override
         public int[] sort(int[] A) {
             int i;
@@ -274,8 +265,6 @@ public class allSort {
             }
             return A;
         }
-
-
     }
 }
 ```
@@ -320,7 +309,7 @@ public static class descending implements Data{
         @Override
         public int[] datainput(int[] A) {
             for (int i = 0; i < A.length; i++) {
-                A[i] = 100000-10*i;
+                A[i] = 100000-10*i;//일부러 10만부터 내림차순으로 넣는다.
             }
             return A;
         }
@@ -338,11 +327,11 @@ public static class nearlysorted implements Data{
         public int[] datainput(int[] A) {
             int tmp = 0;
             for (int i = 0; i < A.length; i++) {
-                A[i] = i;
+                A[i] = i;//먼저 데이터를 입력하고
             }
             for(int i = 1; i < A.length; i++){
-                if(A.length - i>10){
-                    tmp = A[10+i];
+                if(A.length - i>10){// 만약 뒤에 데이터가 있다면
+                    tmp = A[10+i]; //10 간격으로 데이터를 서로 교환한다
                     A[i] = tmp;
                     A[10+i] = A[i];
                 }
@@ -376,7 +365,7 @@ public class allData {
         @Override
         public int[] datainput(int[] A) {
             for (int i = 0; i < A.length; i++) {
-                A[i] = 100000-10*i;
+                A[i] = 100000-10*i;//일부러 10만부터 내림차순으로 넣는다.
             }
             return A;
         }
@@ -388,11 +377,11 @@ public class allData {
         public int[] datainput(int[] A) {
             int tmp = 0;
             for (int i = 0; i < A.length; i++) {
-                A[i] = i;
+                A[i] = i;//먼저 데이터를 입력하고
             }
             for(int i = 1; i < A.length; i++){
-                if(A.length - i>10){
-                    tmp = A[10+i];
+                if(A.length - i>10){// 만약 뒤에 데이터가 있다면
+                    tmp = A[10+i]; //10 간격으로 데이터를 서로 교환한다
                     A[i] = tmp;
                     A[10+i] = A[i];
                 }
@@ -402,8 +391,6 @@ public class allData {
             return A;
         }
     }
-
-
 
 }
 ```

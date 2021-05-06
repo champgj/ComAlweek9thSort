@@ -1,4 +1,5 @@
 public class allSort {
+    //ppt 참고하니 풀만했다!
 
     public static class bubbleSort implements Sorter {
 
@@ -70,7 +71,7 @@ public class allSort {
     }
 
     public static class shellSort implements Sorter {
-
+        //쉘정렬은 기본적으로 구간만 나눠서 계산하고 그 나눠진 구간안에서는 삽입정렬로 구현할 수 있다.
         @Override
         public int[] sort(int[] A) {
             int i;
