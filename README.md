@@ -38,7 +38,11 @@
 
 여러 번의 교환이 발생하는 버블정렬의 단점을 해결할 수 있다.
 
-## 1.2) 설계과정
+
+
+# 2. 정렬구현코드
+
+## 2.1) 설계과정
 
 1. 삽입,버블,선택,쉘 정렬을 구현한다.
 2. 인터페이스로 구현해서 한개의 Sorter로 묶는다.
@@ -48,11 +52,9 @@
 
 
 
-# 2. 정렬구현코드
+## 2.2) 정렬코드
 
-## 2.1) 정렬코드
-
-### 2.1.1) Sorter 인터페이스
+### 2.2.1) Sorter 인터페이스
 
 ```java
 public interface Sorter {
@@ -63,7 +65,7 @@ public interface Sorter {
 
 
 
-### 2.1.2) 삽입정렬
+### 2.2.2) 삽입정렬
 
  ```java
 public static class bubbleSort implements Sorter {
@@ -89,7 +91,7 @@ public static class bubbleSort implements Sorter {
 
 
 
-### 2.1.3) 버블정렬
+### 2.2.3) 버블정렬
 
  ```java
  public static class insertionSort implements Sorter {
@@ -113,7 +115,7 @@ public static class bubbleSort implements Sorter {
 
 
 
-### 2.1.4) 선택정렬
+### 2.2.4) 선택정렬
 
  ```java
 public static class selectionSort implements Sorter {
@@ -142,7 +144,7 @@ public static class selectionSort implements Sorter {
 
 
 
-### 2.1.5) 쉘정렬
+### 2.2.5) 쉘정렬
 
  ```java
 public static class shellSort implements Sorter {
@@ -175,7 +177,7 @@ public static class shellSort implements Sorter {
 
 이것에 대해서는 밑에서 다시 다루겠습니다.
 
-### 2.1.5) 정렬전체
+### 2.2.6) 정렬전체
 
 ```java
 public class allSort {
@@ -271,9 +273,9 @@ public class allSort {
 
 
 
-## 2.2) 데이터 생성함수
+## 2.3) 데이터 생성함수
 
-### 2.2.1) Data 인터페이스
+### 2.3.1) Data 인터페이스
 
 ```java
 public interface Data {
@@ -284,7 +286,7 @@ public interface Data {
 
 
 
-### 2.2.2) 랜덤 배열
+### 2.3.2) 랜덤 배열
 
 ```java
 public static class random implements Data{
@@ -301,7 +303,7 @@ public static class random implements Data{
 
 
 
-### 2.2.3) 내림차순 배열
+### 2.3.3) 내림차순 배열
 
 ```java
 public static class descending implements Data{
@@ -318,7 +320,7 @@ public static class descending implements Data{
 
 
 
-### 2.2.4) 어느정도 정렬된 배열
+### 2.3.4) 어느정도 정렬된 배열
 
 ```java
 public static class nearlysorted implements Data{
@@ -345,7 +347,7 @@ public static class nearlysorted implements Data{
 
 
 
-### 2.2.5) 배열 전체
+### 2.3.5) 배열 전체
 
 ```java
 public class allData {
@@ -401,9 +403,9 @@ public class allData {
 
 
 
-## 2.3)  main
+## 2.4)  main
 
-### 2.3.1) 정렬되는 시간을 쟤는 함수
+### 2.4.1) 정렬되는 시간을 쟤는 함수
 
 ```java
 public static void timecounter(int[][][] result, int n, Sorter sorter, Data data, int a, int b) {
@@ -428,7 +430,7 @@ i를 2500씩 증가해가면서 속도를 측정하였다.
 
 
 
-### 2.3.2) main 함수(측정함수포함)
+### 2.4.2) main 함수(측정함수포함)
 
 ```java
 import java.util.Scanner;
@@ -525,7 +527,7 @@ public class main {
 
 
 
-### 2.3.1) 출력결과
+### 2.5) 출력결과
 
 ![image-20210506210023527](https://user-images.githubusercontent.com/75067408/117295640-0f0dbb00-aeaf-11eb-9671-87342d647457.png)
 
