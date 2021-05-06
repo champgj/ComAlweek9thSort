@@ -15,7 +15,7 @@ public class allData {
         @Override
         public int[] datainput(int[] A) {
             for (int i = 0; i < A.length; i++) {
-                A[i] = 100000-i;
+                A[i] = 100000-10*i;
             }
             return A;
         }
@@ -30,10 +30,10 @@ public class allData {
                 A[i] = i;
             }
             for(int i = 1; i < A.length; i++){
-                if(A.length - i>7){
-                    tmp = A[7+i];
+                if(A.length - i>10){
+                    tmp = A[10+i];
                     A[i] = tmp;
-                    A[7+i] = A[i];
+                    A[10+i] = A[i];
                 }
 
             }

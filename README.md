@@ -57,13 +57,8 @@
 ```java
 public interface Sorter {
     public int[] sort(int[]A);
-
-    public static void print(int[] A){
-        for (int i = 0; i < A.length; i++) {
-            System.out.print(A[i] + " ");
-        }
-    }
 }
+
 ```
 
 
@@ -77,10 +72,10 @@ public static class insertionSort implements Sorter {
         public int[] sort (int [] A){
 
             for (int i = 1; i < A.length; i++) {
-                int CurrentElement = A[i];
-                int j = i - 1;
+                int CurrentElement = A[i];//현재 비교될 수
+                int j = i - 1;//비교할 대상을 j에 넣는다.
                 while (j >= 0 && A[j]>CurrentElement) {
-                    A[j+1] = A[j];
+                    A[j+1] = A[j];//조건식을 만족하면 오른쪽으로 이동
                     j=j-1;
                 }
                 A[j+1] = CurrentElement;
@@ -104,6 +99,7 @@ public static class bubbleSort implements Sorter {
             int tmp;
             for(int j = 0; j < n; j++) {
                 for(int i = 1 ; i < n-j ; i++) {
+                    // j번째와 j-1번째의 요소가 정렬이 안 돼있으면 교환
                     if(A[i-1] > A[i]) {
                         tmp = A[i-1];
                         A[i-1] = A[i];
@@ -135,6 +131,7 @@ public static class selectionSort implements Sorter {
                         min = j;
                     }
                 }
+                //최솟값이 있던 자리와 배열 맨앞자리를 swap
                 tmp = A[min];
                 A[min] = A[i];
                 A[i] = tmp;
@@ -156,7 +153,8 @@ public static class shellSort implements Sorter {
             int i;
             int j;
             int CurrentElement;
-            for(int h = A.length / 3+1; h > 0; h = h/2) {
+            for(int h = A.length; h > 0; h = (h-1)/3) {
+                //길이를 n/3+1로 줄여가면서 수행
                 for( i=h; i<A.length; i++ ) {
                     CurrentElement = A[i];
                     j = i;
@@ -171,11 +169,13 @@ public static class shellSort implements Sorter {
         }
 
     }
+
+}
  ```
 
-**직접 테스트 해본 결과 gap을 A.length/2 로 계속 1/2로 줄여나가는 것 보다 **
+**직접 측정해보니 gap을 A.length/2 로 계속 1/2로 줄여나가는 것 보다 **
 
-**N/3+1이 더 빨라서 h = A.length / 3+1 로 작성하였다.**
+**N-1/3이 더 빨라서 h = (A.length-1) / 3 로 작성하였다.**
 
 이것에 대해서는 밑에서 다시 다루겠습니다.
 
@@ -202,7 +202,7 @@ public static class random implements Data{
         public int[] datainput (int [] A){
 
             for (int i = 0; i < A.length; i++) {
-                A[i] = (int) (Math.random()*100);
+                A[i] = (int) (Math.random()*100);//100미만 숫자 랜덤
             }
             return A;
         }
@@ -219,7 +219,7 @@ public static class descending implements Data{
         @Override
         public int[] datainput(int[] A) {
             for (int i = 0; i < A.length; i++) {
-                A[i] = 100000-i;
+                A[i] = 100000-i;//10만부터 거꾸로 입력
             }
             return A;
         }
@@ -239,7 +239,9 @@ public static class nearlysorted implements Data{
         for (int i = 0; i < A.length; i++) {
             A[i] = i;
         }
+        // 순서대로 죽 넣고
         for(int i = 1; i < A.length; i++){
+            //어느정도 정렬된 것을 만들기 위해 만약 7번뒤에도 값이 있으면 그 값끼리 바꾸게 했다.
             if(A.length - i>7){
                 tmp = A[7+i];
                 A[i] = tmp;
@@ -255,144 +257,122 @@ public static class nearlysorted implements Data{
 
 
 
-### 2.3) main 함수
+## 2.3)  main
+
+### 2.3.1) 정렬되는 시간을 쟤는 함수
+
+```java
+public static void timecounter(int[][][] result, int n, Sorter sorter, Data data, int a, int b) {
+    // 매개변수
+
+    for(int i = 1; i<=n/5000;i++){ // 우선은 데이터를 1000씩 늘려가며 정렬을 수행해본다.
+        long start, end; //시작시간, 종료시간
+        start = System.currentTimeMillis();//시작시간 기록
+        int[] arr = new int[i*5000]; // 입력받은 n값으로 배열을 하나 만든다.
+        data.datainput(arr); // 만들어진 배열에 입력받은 데이터 타입으로 값을 입력한다.
+
+        sorter.sort(arr); // 입력받은 정렬방식으로 정렬한다.
+        end = System.currentTimeMillis(); // 종료시간 기록
+        result[a][b][i-1] = (int) (end-start);
+
+    }
+
+}
+```
+
+### 2.3.2) main 함수(측정함수포함)
 
 ```java
 import java.util.Scanner;
 
 public class main {
 
+    // 기본적으로 각 정렬도 실행이 되지만, 이 함수는 단순히 정렬하는 시간만 재어 결과배열에 입력하는 함수이다.
+    public static void timecounter(int[][][] result, int n, Sorter sorter, Data data, int a, int b) {
+        // 매개변수
 
-    public static void main(String[] args) {
+        for(int i = 1; i<=n/5000;i++){ // 우선은 데이터를 1000씩 늘려가며 정렬을 수행해본다.
+            long start, end; //시작시간, 종료시간
+            start = System.currentTimeMillis();//시작시간 기록
+            int[] arr = new int[i*5000]; // 입력받은 n값으로 배열을 하나 만든다.
+            data.datainput(arr); // 만들어진 배열에 입력받은 데이터 타입으로 값을 입력한다.
+
+            sorter.sort(arr); // 입력받은 정렬방식으로 정렬한다.
+            end = System.currentTimeMillis(); // 종료시간 기록
+            result[a][b][i-1] = (int) (end-start);
+
+        }
+
+    }
+
+
+
+    public static void main(String[] args) throws Exception {
 
         Sorter insertion = new allSort.insertionSort();
         Sorter bubble = new allSort.bubbleSort();
         Sorter selection = new allSort.selectionSort();
         Sorter shell = new allSort.shellSort();
 
-
         Data random = new allData.random();
-        Data nearlysorted = new allData.nearlysorted();
+        Data somesorted = new allData.nearlysorted();
         Data descending = new allData.descending();
 
-        System.out.println("만들고싶은 랜덤배열,어느정도 정렬된 배열, 내림차순 배열의 크기를 입력하시오");
+
 
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
 
+        int [][][] result = new int[4][3][n/5000];
+        // 1. 삽입 2. 버블 3. 선택 4. 쉘
+        // 1. 랜덤 2. 어느정도 3. 내림
 
 
-        int [] randomArray = new int[n];
-        random.datainput(randomArray);
+
+        timecounter(result,n,insertion,random,0,0);
+        //삽입,랜덤을 실행하고 시간을 result[0][0][i]에 저장
+        timecounter(result,n,bubble,random,1,0);
+        //버블,랜덤을 실행하고 시간을 result[1][0][i]에 저장
+        timecounter(result,n,selection,random,2,0);
+        //선택,랜덤을 실행하고 시간을 result[2][0][i]에 저장
+        timecounter(result,n,shell,random,3,0);
+        //쉘,랜덤을 실행하고 시간을 result[3][0][i]에 저장
+
+        timecounter(result,n,insertion,somesorted,0,1);
+        //삽입,정렬된배열을 실행하고 시간을 result[0][1][i]에 저장
+        timecounter(result,n,bubble,somesorted,1,1);
+        //버블,정렬된배열을 실행하고 시간을 result[0][1][i]에 저장
+        timecounter(result,n,selection,somesorted,2,1);
+        //선택,정렬된배열을 실행하고 시간을 result[2][1][i]에 저장
+        timecounter(result,n,shell,somesorted,3,1);
+        //쉘,랜덤을 정렬된배열을 시간을 result[3][1][i]에 저장
+
+        timecounter(result,n,insertion,descending,0,2);
+        //삽입,내림차순을 실행하고 시간을 result[0][2][i]에 저장
+        timecounter(result,n,bubble,descending,1,2);
+        //버블,내림차순을 실행하고 시간을 result[1][2][i]에 저장
+        timecounter(result,n,selection,descending,2,2);
+        //선택,내림차순을 실행하고 시간을 result[2][2][i]에 저장
+        timecounter(result,n,shell,descending,3,2);
+        //쉘,내림차순을 실행하고 시간을 result[3][2][i]에 저장
 
 
-        int[] randomInsertion = randomArray;
-        int[] randomBubble = randomArray;
-        int[] randomSelection = randomArray;
-        int[] randomShell = randomArray;
 
-        //랜덤배열을 각 정렬방식으로 돌림
-        long start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(randomInsertion);
-        insertion.sort(randomInsertion);
-        long end = System.currentTimeMillis();
-        System.out.println("삽입정렬로 랜덤배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
+        for(int i = 0; i<4;i++){
+            for(int j = 0; j<3;j++){
+                for(int k = 0; k<n/5000;k++){
 
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(randomBubble);
-        bubble.sort(randomBubble);
-        end = System.currentTimeMillis();
-        System.out.println("버블정렬로 랜덤배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
+                    System.out.println((i+1)+"번 정렬로 "+(j+1)+"번 종류의 데이터"+(k+1)*5000+"만큼을 정렬하는데 걸리는 시간은"+result[i][j][k]);
 
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(randomSelection);
-        selection.sort(randomSelection);
-        end = System.currentTimeMillis();
-        System.out.println("선택정렬로 랜덤배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(randomShell);
-        shell.sort(randomShell);
-        end = System.currentTimeMillis();
-        System.out.println("쉘정렬로 랜덤배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
+                }
+            }
+        }
 
 
-        System.out.println("");
-
-
-        int [] nearlysortedArray = new int[n];
-        nearlysorted.datainput(nearlysortedArray);
-
-        int[] somesortedInsertion = nearlysortedArray;
-        int[] somesortedBubble = nearlysortedArray;
-        int[] somesortedSelection = nearlysortedArray;
-        int[] somesortedShell = nearlysortedArray;
-
-
-        //어느정도 정렬된 배열을 각 정렬방식으로 돌림
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(somesortedInsertion);
-        insertion.sort(somesortedInsertion);
-        end = System.currentTimeMillis();
-        System.out.println("삽입정렬로 어느정도 정렬된 배열 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(somesortedBubble);
-        bubble.sort(somesortedBubble);
-        end = System.currentTimeMillis();
-        System.out.println("버블정렬로 어느정도 정렬된 배열 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(somesortedSelection);
-        selection.sort(somesortedSelection);
-        end = System.currentTimeMillis();
-        System.out.println("선택정렬로 어느정도 정렬된 배열 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(somesortedShell);
-        shell.sort(somesortedShell);
-        end = System.currentTimeMillis();
-        System.out.println("쉘정렬로 어느정도 정렬된 배열 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
-        System.out.println("");
-
-        int [] descendingArray = new int[n];
-        descending.datainput(descendingArray);
-
-        int[] descendingInsertion = descendingArray;
-        int[] descendingBubble = descendingArray;
-        int[] descendingSelection = descendingArray;
-        int[] descendingShell = descendingArray;
-        
-
-        //내림차순배열을 각 정렬방식으로 돌림
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(descendingInsertion);
-        insertion.sort(descendingInsertion);
-        end = System.currentTimeMillis();
-        System.out.println("삽입정렬로 내림차순배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(descendingBubble);
-        bubble.sort(descendingBubble);
-        end = System.currentTimeMillis();
-        System.out.println("버블정렬로 내림차순배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(descendingSelection);
-        selection.sort(descendingSelection);
-        end = System.currentTimeMillis();
-        System.out.println("선택정렬로 내림차순배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
-        start = System.currentTimeMillis(); // 코드 돌리는데에 걸리는 시간초 계산
-        random.datainput(descendingShell);
-        shell.sort(descendingShell);
-        end = System.currentTimeMillis();
-        System.out.println("쉘정렬로 내림차순배열을 정렬하는데 걸린 시간은 : " + (end - start) + "ms");
-
-        
     }
 }
+
+
 ```
 
 
@@ -401,9 +381,9 @@ public class main {
 
 출력결과는 다음과 같다.
 
-예시로 크기가 1000인 배열을 생성하여 정렬하였다.
+예시로 크기가 1000인 배열까지의 데이터를 생성하여 정렬하였다.
 
-![image-20210504212201256](https://user-images.githubusercontent.com/75067408/117023527-270cff80-ad34-11eb-95cd-298f8f786bb6.png)
+
 
 
 
@@ -437,23 +417,44 @@ public class main {
 
 ## 3.3) 각 데이터 별 성능비교
 
-![image-20210504213544834](https://user-images.githubusercontent.com/75067408/117023604-38560c00-ad34-11eb-8454-69a7dd3efdaa.png)
-
-
-
-![image-20210504213612201](https://user-images.githubusercontent.com/75067408/117023652-4310a100-ad34-11eb-8ca5-356519603830.png)
-
-![image-20210504213645993](https://user-images.githubusercontent.com/75067408/117023702-4e63cc80-ad34-11eb-97d5-624c87dd8909.png)
-
-
-
-
+![image-20210506205012810](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210506205012810.png)
 
 
 
 같은 정렬방식이라도 코드로 짜는 방법의 차이로 그래프가 다르게 나올 수 있을 것 같다.
 
-![image-20210504213851312](https://user-images.githubusercontent.com/75067408/117023750-57549e00-ad34-11eb-94f8-1526945ae29f.png)
+![image-20210504213851312](https://user-images.githubusercontent.com/75067408/117023750-57549e00-ad34-11eb-94f8-1526945ae29f.png
+
+|       | 삽입정렬 | 삽입정렬 | 삽입정렬 | 버블정렬 | 버블정렬 | 버블정렬 | 선택정렬 | 선택정렬 | 선택정렬 | 쉘정렬 | 쉘정렬   | 쉘정렬   |
+| ----- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | ------ | -------- | -------- |
+|       | 랜덤     | 어느정도 | 내림차순 | 랜덤     | 어느정도 | 내림차순 | 랜덤     | 어느정도 | 내림차순 | 랜덤   | 어느정도 | 내림차순 |
+| 0     | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0      | 0        | 0        |
+| 2500  | 7        | 0        | 1        | 9        | 1        | 6        | 6        | 1        | 2        | 1      | 0        | 0        |
+| 5000  | 7        | 0        | 4        | 23       | 5        | 24       | 11       | 6        | 8        | 2      | 0        | 0        |
+| 7500  | 7        | 0        | 10       | 53       | 12       | 54       | 14       | 12       | 16       | 2      | 0        | 0        |
+| 10000 | 8        | 1        | 14       | 102      | 19       | 96       | 41       | 23       | 31       | 1      | 0        | 1        |
+| 12500 | 11       | 1        | 22       | 167      | 27       | 149      | 66       | 35       | 47       | 1      | 1        | 0        |
+| 15000 | 17       | 0        | 32       | 250      | 39       | 216      | 94       | 51       | 66       | 1      | 0        | 0        |
+| 17500 | 23       | 0        | 43       | 351      | 53       | 293      | 128      | 68       | 87       | 2      | 0        | 0        |
+| 20000 | 29       | 0        | 55       | 471      | 69       | 383      | 141      | 89       | 115      | 2      | 0        | 1        |
+| 22500 | 35       | 1        | 70       | 614      | 88       | 484      | 173      | 113      | 146      | 2      | 0        | 0        |
+| 25000 | 44       | 0        | 86       | 781      | 109      | 599      | 174      | 140      | 178      | 2      | 0        | 1        |
+| 27500 | 52       | 1        | 107      | 956      | 136      | 723      | 203      | 168      | 216      | 2      | 1        | 0        |
+| 30000 | 63       | 0        | 126      | 1157     | 155      | 866      | 210      | 201      | 256      | 3      | 0        | 1        |
+| 32500 | 73       | 1        | 146      | 1376     | 182      | 1014     | 240      | 235      | 302      | 4      | 0        | 0        |
+| 35000 | 85       | 0        | 169      | 1610     | 211      | 1174     | 276      | 277      | 356      | 3      | 0        | 1        |
+| 37500 | 108      | 0        | 198      | 1861     | 243      | 1348     | 317      | 313      | 401      | 4      | 1        | 1        |
+| 40000 | 112      | 0        | 228      | 2138     | 278      | 1540     | 359      | 361      | 457      | 4      | 0        | 1        |
+| 42500 | 126      | 1        | 257      | 2435     | 311      | 1736     | 406      | 409      | 516      | 4      | 0        | 1        |
+| 45000 | 140      | 0        | 283      | 2755     | 349      | 1941     | 456      | 451      | 577      | 5      | 1        | 1        |
+| 47500 | 157      | 1        | 313      | 3080     | 388      | 2165     | 506      | 503      | 643      | 5      | 0        | 1        |
+| 50000 | 173      | 0        | 346      | 3452     | 431      | 2390     | 563      | 558      | 712      | 5      | 1        | 0        |
+| 52500 | 191      | 1        | 380      | 3793     | 479      | 2650     | 619      | 615      | 786      | 5      | 0        | 1        |
+| 55000 | 209      | 0        | 419      | 4201     | 524      | 2899     | 680      | 675      | 867      | 6      | 0        | 1        |
+| 57500 | 228      | 1        | 456      | 4603     | 572      | 3176     | 748      | 737      | 945      | 6      | 1        | 1        |
+| 60000 | 250      | 0        | 496      | 5038     | 621      | 3498     | 823      | 803      | 1026     | 6      | 0        | 2        |
+
+
 
 위 사진은 각각의 배열과 그 크기에 따라서 정렬을 수행했을 때 걸리는 시간을 적은 표 이다.
 
