@@ -540,7 +540,7 @@ public class main {
 
 ### 2.3.1) 출력결과
 
-![image-20210506210023527](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210506210023527.png)
+![image-20210506210023527](https://user-images.githubusercontent.com/75067408/117295640-0f0dbb00-aeaf-11eb-9671-87342d647457.png)
 
 
 
@@ -586,7 +586,7 @@ public class main {
 
 ## 3.3) 각 데이터 별 성능비교
 
-![image-20210506205012810](C:\Users\Choi\AppData\Roaming\Typora\typora-user-images\image-20210506205012810.png)
+![image-20210506205012810](https://user-images.githubusercontent.com/75067408/117295686-1a60e680-aeaf-11eb-8e48-8a65be04bc6f.png)
 
 
 
